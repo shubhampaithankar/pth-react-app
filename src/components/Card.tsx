@@ -1,5 +1,5 @@
 import React from 'react'
-import Type from './Type'
+import { Type } from './'
 import { Pokemon } from '../utils/Types'
 
 export default function Card({ pokemon }: { pokemon: Pokemon }) {

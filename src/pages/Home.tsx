@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { getRandomPokemon } from '../utils/Apis'
-import Card from '../components/Card'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { Loader } from '../components'
+import { Loader, Card } from '../components'
+
 import { Pokemon } from '../utils/Types'
+
+import { getRandomPokemon } from '../utils/Apis'
 
 export default function Home() {
     const [loading, setLoading] = useState(false)
