@@ -9,4 +9,7 @@ const apiInstance = axios.create({
     },
 })
 
+export const loginUser = async (data: any) => apiInstance.post('auth/login', data).then(response => response.data)
+export const registerUser = async (data: any) => apiInstance.post('auth/register', data).then(response => response.data)
+
 export const getRandomPokemon = async () => apiInstance.post('pokemon/get-random').then(response => response.data)
