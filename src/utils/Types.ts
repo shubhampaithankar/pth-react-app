@@ -1,3 +1,21 @@
+// AUTH TYPES
+export type AuthContextType = {
+    isAuthenticated: boolean, 
+    user: User | null, 
+    token: string | null, 
+    login: (user: User, token: string) => void, 
+    logout: () => void
+}
+
+export type User = {
+    username: string,
+    id: string,
+    pokemon: Pokemon[]
+}
+
+
+// POKEMON TYPES
+
 export type Pokemon = {
     abilities: Ability[];
     id: number;
