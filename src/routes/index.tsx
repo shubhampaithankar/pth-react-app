@@ -1,5 +1,5 @@
 import { Navigate, RouteObject } from 'react-router-dom'
-import { Home } from '../pages'
+import { Auth, Home } from '../pages'
 import PrivateRoute from './PrivateRoute'
 
 export const AppRoutes: RouteObject[] = [
@@ -13,6 +13,10 @@ export const AppRoutes: RouteObject[] = [
             {
                 path: 'home',
                 element: <Home />
+            },
+            {
+                path: 'auth',
+                element: <Auth />
             },
             {
                 path: 'profile',
