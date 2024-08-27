@@ -7,8 +7,9 @@ export const AuthProvider = ({ children }: { children: React.JSX.Element }) => {
     const [user, setUser] = useState(null)
     const [token, setToken] = useState(null)
 
-    const login = () => {
-
+    const login = ({ token, user }: any) => {
+        setUser(user)
+        setToken(token)
     }
 
     const logout = () => {
@@ -17,7 +18,7 @@ export const AuthProvider = ({ children }: { children: React.JSX.Element }) => {
     }
 
     useEffect(() => {
-        setIsAuthenticated(!!(token && user))
+        setIsAuthenticated((!!token && !!user))
     }, [])
 
     useEffect(() => {
