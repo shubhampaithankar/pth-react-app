@@ -7,7 +7,7 @@ export default function Navbar() {
 
     const handleLogout = () => {
         logout()
-        navigate('/auth')
+        navigate('/home')
     }
 
     return (
@@ -32,11 +32,6 @@ export default function Navbar() {
                             <li>
                                 <Link to="/pokemon" className="hover:underline">
                                     Pokémon
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/battle" className="hover:underline">
-                                    Battle
                                 </Link>
                             </li>
                             <li>

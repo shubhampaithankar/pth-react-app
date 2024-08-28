@@ -1,10 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import { loginUser, registerUser } from '../utils/Apis'
 import { useAuth } from '../hooks'
+import { useNavigate } from 'react-router-dom'
 
 export default function Auth() {
+    const navigate = useNavigate()
+    const { isAuthenticated } = useAuth()
     const [isRegister, setIsRegister] = useState(false)
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/pokemon')
+            return
+        }
+    }, [isAuthenticated, navigate])
 
     return (
         <section className="h-full flex items-center justify-center">
@@ -43,6 +53,7 @@ const Login = () => {
 
             if (ack === 1) {
                 login(user!, token!)
+
             }
         } catch (error) {
             console.error('Login error:', error)
