@@ -1,3 +1,16 @@
+// API TYPES
+export type LoginResponse = {
+    ack: number,
+    token?: string,
+    user?: User
+    error?: string
+}
+
+export type RegisterResponse = {
+    ack: number,
+    error?: string
+}
+
 // AUTH TYPES
 export type AuthContextType = {
     isAuthenticated: boolean, 
@@ -15,7 +28,6 @@ export type User = {
 
 
 // POKEMON TYPES
-
 export type Pokemon = {
     abilities: Ability[];
     id: number;
