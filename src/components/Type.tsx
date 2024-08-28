@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Type({ type }: { type: string }) {
     const color = types[type]
     return <div style={{ backgroundColor: color }} className='px-5 py-1 rounded-full text-white'>{type}</div>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Type } from './'
 import { Pokemon } from '../utils/Types'
 
