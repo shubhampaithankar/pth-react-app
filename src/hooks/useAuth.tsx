@@ -18,17 +18,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'))
 
     const login = (user: User, token: string) => {
-        setUser(user)
-        setToken(token)
-        localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('token', token)
+        try {
+            setUser(user)
+            setToken(token)
+            localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('token', token)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const logout = () => {
-        setUser(null)
-        setToken(null)
-        localStorage.removeItem('user')
-        localStorage.removeItem('token')
+        try {
+            setUser(null)
+            setToken(null)
+            localStorage.removeItem('user')
+            localStorage.removeItem('token')
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
