@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { Loader, Card } from '../components'
-
-import { Pokemon } from '../utils/Types'
-
-import { getRandomPokemon } from '../utils/Apis'
+import { useEffect } from 'react'
+import { useAuth } from '../hooks'
+import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
-    const [loading, setLoading] = useState(false)
-    const [pokemon, setPokemon] = useState<Pokemon[]>([])
-
-    const fetchPokemon = () => {
-        setLoading(true)
-        getRandomPokemon()
-            .then((data) => setPokemon(data.result))
-            .then(() => setLoading(false))
-    }
+    const { isAuthenticated } = useAuth()
+    const navigate = useNavigate()
 
     useEffect(() => {
-        fetchPokemon()
-    }, [])
+        if (isAuthenticated) {
+            navigate('/pokemon')
+            return
+        }
+    }, [isAuthenticated, navigate])
 
     return (
         <section className='h-full flex items-center flex-wrap gap-2 justify-center'>
-            { loading && <Loader /> }
-            { !loading && pokemon.map((entry, i) => <Card key={i} pokemon={entry}/>) }
+            <h1>Welcome to pokemon trainer hub</h1>
         </section>
     )
 }

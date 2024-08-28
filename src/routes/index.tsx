@@ -1,5 +1,5 @@
 import { Navigate, RouteObject } from 'react-router-dom'
-import { Auth, Home } from '../pages'
+import { Auth, Home, Battle, Pokemon, Profile, BattleGround } from '../pages'
 import PrivateRoute from './PrivateRoute'
 
 export const AppRoutes: RouteObject[] = [
@@ -25,8 +25,7 @@ export const AppRoutes: RouteObject[] = [
                         path: ':username', // username as a dynamic param
                         element: (
                             <PrivateRoute>
-                                <>profile page</>
-                                {/* <ProfilePage /> */}
+                                <Profile />
                             </PrivateRoute>
                         )
                     }
@@ -34,38 +33,35 @@ export const AppRoutes: RouteObject[] = [
             },
             {
                 path: 'pokemon',
+                element: (
+                    <PrivateRoute>
+                        <Pokemon />
+                    </PrivateRoute>
+                ),
                 children: [
                     {
                         path: ':id', // `id` as a dynamic param
                         element: (
                             <PrivateRoute>
-                                <>pokemon detail page</>
-                                {/* <PokemonPage /> */}
+                                <Pokemon />
                             </PrivateRoute>
                         ),
-                        children: [
-                            {
-                                path: 'catch', // `catch` as a separate dynamic param
-                                element: (
-                                    <PrivateRoute>
-                                        <>catch pokemon page</>
-                                        {/* <PokemonPage /> */}
-                                    </PrivateRoute>
-                                )
-                            }
-                        ]
-                    }
+                    },
                 ]
             },
             {
                 path: 'battle',
+                element: (
+                    <PrivateRoute>
+                        <Battle />
+                    </PrivateRoute>
+                ),
                 children: [
                     {
                         path: ':roomID', // `roomID` as a dynamic param for WebSocket
                         element: (
                             <PrivateRoute>
-                                <>battle room page</>
-                                {/* <BattlePage /> */}
+                                <BattleGround />
                             </PrivateRoute>
                         )
                     }
