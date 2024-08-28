@@ -14,3 +14,4 @@ export const loginUser = async (data: any) => apiInstance.post<LoginResponse>('a
 export const registerUser = async (data: any) => apiInstance.post<RegisterResponse>('auth/register', data).then(response => response.data)
 
 export const getRandomPokemon = async () => apiInstance.post('pokemon/get-random').then(response => response.data)
+export const getPokemonInfo = async (data: any) => apiInstance.post('pokemon/get-details', data).then(response => response.data)

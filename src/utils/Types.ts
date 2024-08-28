@@ -249,3 +249,26 @@ export type Sprites = {
         };
     };
 };
+
+export type PokemonDetail = {
+    abilities: Ability[];
+    base_experience: number | null;
+    forms: any[];
+    game_indices: number[];
+    height: number;
+    held_items: any[];
+    id: number;
+    is_default: boolean;
+    location_area_encounters: string;
+    moves: any[];
+    name: string;
+    order: number;
+    past_abilities: any[];
+    past_types: any[];
+    species: any;
+    sprites: Sprites;
+    stats: Stat[];
+    types: Type[];
+    weight: number;
+    [property: string]: any;
+}
