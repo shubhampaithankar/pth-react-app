@@ -46,14 +46,12 @@ const Login = () => {
         try {
             const { username, password } = formData
             const { ack, error, token, user } = await loginUser({ username, password })
-            if (ack === 0) {
-                console.log(error)
-                return
-            }
-
             if (ack === 1) {
                 login(user!, token!)
 
+            } else {
+                console.log(error)
+                return
             }
         } catch (error) {
             console.error('Login error:', error)
