@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PokemonDetail as Info } from '../utils/Types'
-import { getPokemonInfo } from '../utils/Apis'
+import { getPokemonInfo } from '../services/ApiService'
 import { Loader, Type } from '../components'
 
 export default function PokemonDetail() {

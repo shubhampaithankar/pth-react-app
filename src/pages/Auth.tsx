@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
-import { loginUser, registerUser } from '../utils/Apis'
+import { loginUser, registerUser } from '../services/ApiService'
 import { useAuth } from '../hooks'
 import { useNavigate } from 'react-router-dom'
 

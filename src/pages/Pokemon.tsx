@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Pokemon as PokemonType } from '../utils/Types'
-import { getRandomPokemon } from '../utils/Apis'
+import { getRandomPokemon } from '../services/ApiService'
 import { Loader, Card } from '../components'
 
 export default function Pokemon() {
