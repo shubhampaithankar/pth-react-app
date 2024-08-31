@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { AuthContextType, User } from '../utils/Types'
+import { isTokenExpired } from '../services/JwtService'
+import { useNavigate } from 'react-router-dom'
 
 export const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
@@ -10,12 +12,11 @@ export const AuthContext = createContext<AuthContextType>({
 })
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const navigate = useNavigate()
+
     const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [user, setUser] = useState<User | null>(() => {
-        const storedUser = localStorage.getItem('user')
-        return storedUser ? JSON.parse(storedUser) : null
-    })
-    const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'))
+    const [user, setUser] = useState<User | null>(null)
+    const [token, setToken] = useState<string | null>(null)
 
     const login = (user: User, token: string) => {
         try {
@@ -40,19 +41,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     useEffect(() => {
-        setIsAuthenticated(!!token && !!user)
-    }, [token, user])
+        setUser(() => {
+            const storedUser = localStorage.getItem('user')
+            return storedUser ? JSON.parse(storedUser) : null
+        })
+        setToken(() => localStorage.getItem('token'))
+    }, [])
 
     useEffect(() => {
-        if (token && !user) {
-            console.log('fetch user data using token')
-            // setUser(fetchedUser);
+        if(token && isTokenExpired(token)) {
+            logout()
+            navigate('/')
         }
     }, [token])
 
     useEffect(() => {
-        if (user && !token) logout()
-    }, [user, token])
+        setIsAuthenticated(!!token && !!user)
+    }, [token, user])
 
     const authContext: AuthContextType = {
         isAuthenticated,
