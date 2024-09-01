@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PokemonDetail as Info } from '../utils/Types'
 import { getPokemonInfo } from '../services/ApiService'
 import { Loader, Type } from '../components'
 
-export default function PokemonDetail() {
+export default memo(function PokemonDetail() {
     const { id } = useParams<{ id: string }>()
 
     const [pokemon, setPokemon] = useState<Info | null>(null)
@@ -16,9 +16,7 @@ export default function PokemonDetail() {
     useEffect(() => {
         const fetchPokemonDetails = async () => {
             try {
-                const data = await getPokemonInfo({
-                    id
-                })
+                const data = await getPokemonInfo({ id })
                 setPokemon(data.result)
                 setLoading(false)
             } catch (err) {
@@ -126,4 +124,4 @@ export default function PokemonDetail() {
         </section>
     )
     
-}
+})
