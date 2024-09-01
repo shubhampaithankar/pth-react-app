@@ -7,7 +7,13 @@ export type LoginResponse = {
 }
 
 export type RegisterResponse = {
-    ack: number,
+    ack: number
+    error?: string
+}
+
+export type RefreshTokenResponse = {
+    ack: number
+    token?: string
     error?: string
 }
 
