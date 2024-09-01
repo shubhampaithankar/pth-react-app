@@ -1,7 +1,9 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { AuthContextType, User } from '../utils/Types'
 import { isTokenExpired } from '../services/JwtService'
-import { useNavigate } from 'react-router-dom'
+import { refreshToken } from '../services/ApiService'
 
 export const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
@@ -29,16 +31,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
-    const logout = () => {
+    const logout = useCallback(() => {
         try {
             setUser(null)
             setToken(null)
             localStorage.removeItem('user')
             localStorage.removeItem('token')
+            navigate('/')
         } catch (error) {
             console.log(error)
         }
-    }
+    }, [navigate])
+
+    const refreshAccessToken = useCallback(async () => {
+        try {
+            const { ack, error, token } = await refreshToken()
+            if (ack === 1) {
+                setToken(token!)
+                localStorage.setItem('token', token!)
+            } else throw error
+
+        } catch (error) {
+            console.error('Token refresh error:', error)
+            logout() 
+        }
+    }, [logout])
 
     useEffect(() => {
         setUser(() => {
@@ -49,9 +66,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, [])
 
     useEffect(() => {
-        if(token && isTokenExpired(token)) {
-            logout()
-            navigate('/')
+        if (token && isTokenExpired(token)) {
+            refreshAccessToken()
         }
     }, [token])
 
