@@ -3,7 +3,7 @@ import { LoginResponse, RefreshTokenResponse, RegisterResponse } from '../utils/
 
 export const baseURL = 'http://localhost:3001/api/'
 
-const apiInstance = axios.create({
+export const apiInstance = axios.create({
     baseURL,
     headers: {
         'Content-Type': 'application/json',

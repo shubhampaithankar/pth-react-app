@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { InternalAxiosRequestConfig } from 'axios'
 
 import { AuthContextType, User } from '../utils/Types'
 import { isTokenExpired } from '../services/JwtService'
-import { refreshToken } from '../services/ApiService'
+import { apiInstance, refreshToken } from '../services/ApiService'
 
 export const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
@@ -66,13 +67,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, [])
 
     useEffect(() => {
-        if (token && isTokenExpired(token)) {
-            refreshAccessToken()
+        if (token) {
+            apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+                config.headers['Authorization'] = `Bearer ${token}`
+                return config
+            })
+
+            const interval = setInterval(() => {
+                if (isTokenExpired(token)) refreshAccessToken()
+            }, 60 * 1000)
+
+            return () => clearInterval(interval)
         }
     }, [token])
 
     useEffect(() => {
-        setIsAuthenticated(!!token && !!user)
+        setIsAuthenticated(Boolean(token) && Boolean(user))
     }, [token, user])
 
     const authContext: AuthContextType = {
