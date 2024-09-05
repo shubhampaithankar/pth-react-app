@@ -1,3 +1,5 @@
+import { Socket } from 'socket.io-client'
+
 // API TYPES
 export type LoginResponse = {
     ack: number,
@@ -15,6 +17,12 @@ export type RefreshTokenResponse = {
     ack: number
     token?: string
     error?: string
+}
+
+// SOCKET TYPES
+export type SocketContextType = {
+    socket: Socket | null | undefined
+    onlineUsers: string[]
 }
 
 // AUTH TYPES
