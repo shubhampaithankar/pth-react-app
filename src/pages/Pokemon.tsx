@@ -1,10 +1,10 @@
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Pokemon as PokemonObj } from '../utils/Types'
 import { getRandomPokemon } from '../services/ApiService'
 import { Loader, Card } from '../components'
 
-export default memo(function Pokemon() {
+export default function Pokemon() {
     const [loading, setLoading] = useState(false)
     const [pokemon, setPokemon] = useState<PokemonObj[]>([])
 
@@ -17,12 +17,11 @@ export default memo(function Pokemon() {
         } catch (error) {
             
         }
-
         setLoading(false)
     }
 
     useEffect(() => {
-        fetchPokemon()
+        if (pokemon.length === 0) fetchPokemon()
     }, [])
     
     return (
@@ -31,4 +30,4 @@ export default memo(function Pokemon() {
             { !loading && pokemon.map((entry, i) => <Card key={i} pokemon={entry}/>) }
         </section>
     )
-})
+}
