@@ -1,11 +1,21 @@
 import { Socket } from 'socket.io-client'
 
 // API TYPES
+export type LoginRequest = {
+    username: string
+    password: string
+}
+
 export type LoginResponse = {
     ack: number,
     token?: string,
     user?: User
     error?: string
+}
+
+export type RegisterRequest = {
+    username: string
+    password: string
 }
 
 export type RegisterResponse = {
@@ -16,6 +26,22 @@ export type RegisterResponse = {
 export type RefreshTokenResponse = {
     ack: number
     token?: string
+    error?: string
+}
+
+export type GetRandomPokemonResponse = {
+    ack: number
+    pokemon?: Pokemon[]
+    error?: string
+}
+
+export type GetPokemonInfoRequest = {
+    id: number | string
+}
+
+export type GetPokemonInfoResponse = {
+    ack: number
+    pokemon?: PokemonDetail
     error?: string
 }
 
