@@ -1,3 +1,4 @@
 import useAuth from './useAuth'
+import useSocket from './useSocket'
 
-export { useAuth }
+export { useAuth, useSocket }
