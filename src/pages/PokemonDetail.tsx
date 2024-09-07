@@ -3,46 +3,34 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { PokemonDetail as Info } from '../utils/Types'
 import { getPokemonInfo } from '../services/ApiService'
 import { Loader, Type } from '../components'
+import { useQuery } from '@tanstack/react-query'
 
 export default memo(function PokemonDetail() {
     const { id } = useParams<{ id: string }>()
-
-    const [pokemon, setPokemon] = useState<Info | null>(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+    if (!id) return <>No pokemon id provided</>
 
     const navigate = useNavigate()
 
+    const [pokemon, setPokemon] = useState<Info | null>(null)
+
+    const { data, isError, isLoading } = useQuery({
+        queryKey: ['fetchPokemonInfo'],
+        queryFn: async () => getPokemonInfo({ id })
+    })
+
     useEffect(() => {
-        const fetchPokemonDetails = async () => {
-            try {
-                const data = await getPokemonInfo({ id })
-                setPokemon(data.result)
-                setLoading(false)
-            } catch (err) {
-                setError('Failed to fetch Pokémon details')
-                setLoading(false)
-            }
+        if (data) {
+            const { ack, error, pokemon } = data
+            if (ack === 1) setPokemon(pokemon!)
+            else console.log(error)
         }
+    }, [data])
 
-        fetchPokemonDetails()
-    }, [id])
-
-    if (error) {
-        return <div className="text-center mt-10 text-red-500">{error}</div>
-    }
-
-    if (!pokemon) {
-        return <div className="text-center mt-10">No Pokémon data available</div>
-    }
+    if (isLoading) return <Loader />
 
     return (
         <section className="p-8 bg-gray-100 min-h-screen">
-            {
-                loading ? (
-                    <Loader />
-                ) : (
-                    pokemon && 
+        {   pokemon && 
             <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
                 <div className="text-center">
                     <h1 className="text-3xl font-bold capitalize">{pokemon.name}</h1>
@@ -119,8 +107,7 @@ export default memo(function PokemonDetail() {
                     </button>
                 </div>
             </div> 
-                )
-            }
+        }
         </section>
     )
     
