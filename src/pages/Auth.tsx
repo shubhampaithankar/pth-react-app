@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
+import { useMutation } from '@tanstack/react-query'
+
 import { loginUser, registerUser } from '../services/ApiService'
 import { useAuth } from '../hooks'
 import { useNavigate } from 'react-router-dom'
@@ -36,23 +38,21 @@ export default function Auth() {
 const Login = () => {
     const { login } = useAuth()
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['login'],
+        mutationFn: loginUser,
+        onSuccess: ({ ack, error, token, user }) => {
+            if (ack === 1) login(user!, token!)
+            else console.log(error)
+        }
+    })
 
     const onSubmit = async (formData: FieldValues) => {
         try {
             const { username, password } = formData
-            const { ack, error, token, user } = await loginUser({ username, password })
-            if (ack === 1) {
-                login(user!, token!)
-
-            } else {
-                console.log(error)
-                return
-            }
+            mutate({ username, password })
         } catch (error) {
             console.error('Login error:', error)
         }
@@ -94,18 +94,20 @@ const Login = () => {
 }
 
 const Register = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-    } = useForm()
+    const { register, handleSubmit, formState: { errors }, watch } = useForm()
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['register'],
+        mutationFn: registerUser,
+        onSuccess: ({ ack, error }) => {
+            if (ack !== 1) console.log(error)
+        }
+    })
 
     const onSubmit = async (formData: FieldValues) => {
         try {
             const { username, password } = formData
-            const data = await registerUser({ username, password })
-            console.log('Registration success:', data)
+            mutate({ username, password })
         } catch (error) {
             console.error('Registration error:', error)
         }
