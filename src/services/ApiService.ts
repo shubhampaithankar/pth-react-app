@@ -17,3 +17,7 @@ export const refreshToken = async () => apiInstance.post<RefreshTokenResponse>('
 
 export const getRandomPokemon = async () => apiInstance.post<GetRandomPokemonResponse>('pokemon/get-random').then(response => response.data)
 export const getPokemonInfo = async (data: GetPokemonInfoRequest) => apiInstance.post<GetPokemonInfoResponse>('pokemon/get-details', data).then(response => response.data)
+
+export const getUserPokemon = async () => apiInstance.get<any[]>('user/get-all-pokemon').then(response => response.data)
+export const addPokemontoUser = async (id: number) => apiInstance.post<any>('user/add-pokemon', id).then(response => response.data)
+export const deletePokemonfromUser = async (id: number) => apiInstance.post<any>('user/delete-pokemon', id).then(response => response.data)
