@@ -1,7 +1,7 @@
 import { Type } from './'
 import { Pokemon } from '../utils/Types'
 
-export default function Card({ pokemon }: { pokemon: Pokemon }) {
+export default function Card({ pokemon, mutate }: { pokemon: Pokemon, mutate: (id: number) => void }) {
     const {sprites, name, abilities, id, stats, types} = pokemon
     const total = stats.reduce((acc, curr) => acc + curr.base_stat, 0)
     return (
@@ -30,6 +30,7 @@ export default function Card({ pokemon }: { pokemon: Pokemon }) {
                 <button
                     id="btn"
                     className="block px-[60px] py-4 text-lg bg-black text-white mt-8 mx-auto rounded-md"
+                    onClick={() => mutate(id)}
                 >
                 Capture
                 </button>
