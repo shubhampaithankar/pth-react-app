@@ -72,18 +72,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 config.headers['Authorization'] = `Bearer ${token}`
                 return config
             })
-
-            const interval = setInterval(() => {
-                if (isTokenExpired(token)) refreshAccessToken()
-            }, 60 * 1000)
-
-            return () => clearInterval(interval)
+        } else {
+            apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+                delete config.headers['Authorization']
+                return config
+            })
         }
     }, [token])
 
     useEffect(() => {
         setIsAuthenticated(Boolean(token) && Boolean(user))
     }, [token, user])
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            // check if the access token has expired in an interval of 10 minutes and refresh it if so.
+            const interval = setInterval(() => {
+                if (token) {
+                    const isExpired = isTokenExpired(token!)
+                    if (isExpired) refreshAccessToken()
+                } else clearInterval(interval)
+            }, 600 * 1e3)
+
+            return () => clearInterval(interval)
+        }
+    }, [isAuthenticated])
 
     const authContext: AuthContextType = {
         isAuthenticated,
