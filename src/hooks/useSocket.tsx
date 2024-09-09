@@ -3,8 +3,6 @@ import { io, Socket } from 'socket.io-client'
 import useAuth from './useAuth'
 import { SocketContextType } from '../utils/Types'
 
-
-
 export const SocketContext = createContext<SocketContextType>({
     socket: null,
     onlineUsers: []
@@ -12,7 +10,7 @@ export const SocketContext = createContext<SocketContextType>({
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
     const { isAuthenticated, user } = useAuth()
-    
+
     const [socket, setSocket] = useState<Socket | null>(null)
     const [onlineUsers, setOnlineUsers] = useState<string[]>([])
 
@@ -20,9 +18,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
         if (!isAuthenticated && socket) {
             socket.close()
             setSocket(null)
-        }
-
-        if (isAuthenticated) {
+            
+        } else if (isAuthenticated) {
             setSocket(() => {
                 const socket = io('http://localhost:3001', { transports: ['websocket'], query: {
                     userId: user!.id
