@@ -66,6 +66,17 @@ export type User = {
     pokemon: Pokemon[]
 }
 
+// MODAL TYPES
+export type UseModal = {
+    openModal: () => void
+    closeModal: () => void
+    Dialog: React.FC<{
+        children: React.ReactNode
+        title: string
+        footer?: React.ReactNode
+      }>
+}
+
 
 // POKEMON TYPES
 export type Pokemon = {
