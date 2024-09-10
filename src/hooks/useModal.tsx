@@ -1,33 +1,29 @@
-import { useState, useRef, useCallback } from 'react'
+import { useRef, useCallback } from 'react'
 import { UseModal } from '../utils/Types'
 
 export default function useModal(): UseModal {
-    const [isOpen, setIsOpen] = useState(false)
     const dialogRef = useRef<HTMLDialogElement>(null)
-  
+
     const openModal = useCallback(() => {
-        setIsOpen(true)
         if (dialogRef.current) {
             dialogRef.current.showModal()
         }
     }, [])
-  
+
     const closeModal = useCallback(() => {
-        setIsOpen(false)
         if (dialogRef.current) {
             dialogRef.current.close()
         }
     }, [])
-  
+
     const Dialog: React.FC<{
-      children: React.ReactNode;
-      title: string;
-      footer?: React.ReactNode;
+        children: React.ReactNode;
+        title: string;
+        footer?: React.ReactNode;
     }> = ({ children, title, footer }) => {
         return (
             <dialog
                 ref={dialogRef}
-                onClose={closeModal}
                 className="modal p-0 rounded-lg shadow-xl bg-white max-w-lg w-full overflow-hidden"
             >
                 {/* Modal Header */}
@@ -41,10 +37,10 @@ export default function useModal(): UseModal {
               &times;
                     </button>
                 </div>
-  
+    
                 {/* Modal Content */}
                 <div className="p-4">{children}</div>
-  
+    
                 {/* Modal Footer (Optional) */}
                 {footer && (
                     <div className="p-4 border-t border-gray-200 bg-gray-50">
@@ -54,7 +50,7 @@ export default function useModal(): UseModal {
             </dialog>
         )
     }
-  
+
     return {
         openModal,
         closeModal,
