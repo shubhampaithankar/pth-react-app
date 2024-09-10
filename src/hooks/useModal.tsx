@@ -26,6 +26,13 @@ export default function useModal(): UseModal {
                 ref={dialogRef}
                 className="modal p-0 rounded-lg shadow-xl bg-white max-w-lg w-full overflow-hidden"
             >
+                <style>
+                    {`
+                    dialog::backdrop {
+                        background-color: rgba(0, 0, 0, 0.5);
+                    }
+                `}
+                </style>
                 {/* Modal Header */}
                 <div className="flex justify-between items-center p-4 border-b border-gray-200">
                     <h2 className="text-xl font-semibold">{title}</h2>
