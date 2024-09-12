@@ -68,6 +68,7 @@ const Login = () => {
                     type="text"
                     id="username"
                     className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                    disabled={isPending}
                     {...register('username', { required: 'Username is required' })}
                 />
                 {errors.username && <p className="text-red-500 text-sm">{errors.username.message?.toString()}</p>}
@@ -80,12 +81,13 @@ const Login = () => {
                     type="password"
                     id="password"
                     className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                    disabled={isPending}
                     {...register('password', { required: 'Password is required' })}
                 />
                 {errors.password && <p className="text-red-500 text-sm">{errors.password.message?.toString()}</p>}
             </div>
             <div className="form-group">
-                <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-md">
+                <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-md" disabled={isPending}>
                     Login
                 </button>
             </div>
@@ -123,6 +125,7 @@ const Register = () => {
                     type="text"
                     id="username"
                     className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                    disabled={isPending}
                     {...register('username', { required: 'Username is required' })}
                 />
                 {errors.username && <p className="text-red-500 text-sm">{errors.username.message?.toString()}</p>}
@@ -135,6 +138,7 @@ const Register = () => {
                     type="password"
                     id="password"
                     className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                    disabled={isPending}
                     {...register('password', {
                         required: 'Password is required',
                         minLength: {
@@ -153,6 +157,7 @@ const Register = () => {
                     type="password"
                     id="confirmPassword"
                     className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                    disabled={isPending}
                     {...register('confirmPassword', {
                         required: 'Please confirm your password',
                         validate: (value) =>
@@ -164,7 +169,7 @@ const Register = () => {
                 )}
             </div>
             <div className="form-group">
-                <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-md">
+                <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-md" disabled={isPending}>
                     Register
                 </button>
             </div>
