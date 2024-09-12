@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GetPokemonInfoRequest, GetPokemonInfoResponse, GetRandomPokemonResponse, LoginRequest, LoginResponse, RefreshTokenResponse, RegisterRequest, RegisterResponse } from '../utils/Types'
+import { GetPokemonInfoResponse, GetRandomPokemonResponse, LoginRequest, LoginResponse, RefreshTokenResponse, RegisterRequest, RegisterResponse } from '../utils/Types'
 
 export const baseURL = 'http://localhost:3001/api/'
 
@@ -16,7 +16,7 @@ export const registerUser = async (data: RegisterRequest) => apiInstance.post<Re
 export const refreshToken = async () => apiInstance.post<RefreshTokenResponse>('auth/refresh').then(response => response.data)
 
 export const getRandomPokemon = async () => apiInstance.post<GetRandomPokemonResponse>('pokemon/get-random').then(response => response.data)
-export const getPokemonInfo = async (data: GetPokemonInfoRequest) => apiInstance.post<GetPokemonInfoResponse>('pokemon/get-details', data).then(response => response.data)
+export const getPokemonInfo = async (id: number) => apiInstance.post<GetPokemonInfoResponse>('pokemon/get-details', id).then(response => response.data)
 
 export const getUserPokemon = async () => apiInstance.get<any[]>('user/get-all-pokemon').then(response => response.data)
 export const addPokemontoUser = async (id: number) => apiInstance.post<any>('user/add-pokemon', id).then(response => response.data)

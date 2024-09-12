@@ -7,15 +7,13 @@ import { useQuery } from '@tanstack/react-query'
 
 export default memo(function PokemonDetail() {
     const { id } = useParams<{ id: string }>()
-    if (!id) return <>No pokemon id provided</>
-
     const navigate = useNavigate()
 
     const [pokemon, setPokemon] = useState<Info | null>(null)
 
     const { data, isError, isLoading } = useQuery({
-        queryKey: ['fetchPokemonInfo'],
-        queryFn: async () => getPokemonInfo({ id })
+        queryKey: ['fetchPokemonInfo', id],
+        queryFn: async () => getPokemonInfo(Number(id!))
     })
 
     useEffect(() => {
@@ -30,7 +28,7 @@ export default memo(function PokemonDetail() {
 
     return (
         <section className="p-8 bg-gray-100 min-h-screen">
-        {   pokemon && 
+            { pokemon && 
             <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
                 <div className="text-center">
                     <h1 className="text-3xl font-bold capitalize">{pokemon.name}</h1>
@@ -107,7 +105,7 @@ export default memo(function PokemonDetail() {
                     </button>
                 </div>
             </div> 
-        }
+            }
         </section>
     )
     
