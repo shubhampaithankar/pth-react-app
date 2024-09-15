@@ -16,18 +16,20 @@ export default function Pokemon() {
     })
 
     // add a function to add a pokemon to the user's collection using useMutation
-
     const { isPending, isError, mutate } = useMutation({
         mutationKey: ['addPokemon'],
         mutationFn: addPokemontoUser,
         onMutate: (data: any) => {
             const { ack, error } = data
-            if (ack === 1) console.log(`yes`)
+            if (ack === 1) console.log('yes')
             else console.log(error)
         }
     })
 
-
+    const props = {
+        mutate, 
+        buttonType: 'delete'
+    }
     
     // todo: populate pokemon array with data fetched with useQuery
     useEffect(() => {
@@ -41,7 +43,7 @@ export default function Pokemon() {
     return (
         <section className='h-full flex items-center flex-wrap gap-2 justify-center'>
             { isLoading && <Loader /> }
-            { (!isLoading && isSuccess) && pokemon.map((entry, i) => <Card key={i} pokemon={entry} mutate={mutate}/>) }
+            { (!isLoading && isSuccess) && pokemon.map((entry, i) => <Card key={i} pokemon={entry} {...props} />) }
         </section>
     )
 }
