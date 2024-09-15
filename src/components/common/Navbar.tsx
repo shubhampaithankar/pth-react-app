@@ -25,8 +25,8 @@ export default function Navbar() {
                     {isAuthenticated ? (
                         <>
                             <li>
-                                <Link to={`/profile/${user?.username}`} className="hover:underline">
-                                    Profile
+                                <Link to="/battle" className="hover:underline">
+                                    Battle
                                 </Link>
                             </li>
                             <li>
@@ -34,6 +34,12 @@ export default function Navbar() {
                                     Pokémon
                                 </Link>
                             </li>
+                            <li>
+                                <Link to={`/profile/${user?.username}`} className="hover:underline">
+                                    Profile
+                                </Link>
+                            </li>
+
                             <li>
                                 <button
                                     onClick={handleLogout}
