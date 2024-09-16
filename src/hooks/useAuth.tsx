@@ -5,6 +5,7 @@ import { InternalAxiosRequestConfig } from 'axios'
 import { AuthContextType, User } from '../utils/Types'
 import { isTokenExpired } from '../services/JwtService'
 import { apiInstance, refreshToken } from '../services/ApiService'
+import { tryCatch } from '../utils/HelperFunctions'
 
 export const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
@@ -22,40 +23,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(null)
 
     const login = (user: User, token: string) => {
-        try {
+        const [error] = tryCatch(() => {
             setUser(user)
             setToken(token)
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('token', token)
-        } catch (error) {
-            console.log(error)
-        }
+        })
+
+        if (error) console.log(error)
     }
 
     const logout = useCallback(() => {
-        try {
+        const [error] = tryCatch(() => {
             setUser(null)
             setToken(null)
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             navigate('/')
-        } catch (error) {
-            console.log(error)
-        }
+        })
+        if (error) console.log(error)
     }, [navigate])
 
     const refreshAccessToken = useCallback(async () => {
-        try {
+        const [error] = tryCatch(async () => {
             const { ack, error, token } = await refreshToken()
             if (ack === 1) {
                 setToken(token!)
                 localStorage.setItem('token', token!)
             } else throw error
+        })
 
-        } catch (error) {
+        if (error) {
             console.error('Token refresh error:', error)
             logout() 
         }
+        
     }, [logout])
 
     useEffect(() => {
