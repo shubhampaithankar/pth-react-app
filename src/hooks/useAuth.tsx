@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { InternalAxiosRequestConfig } from 'axios'
+// import { InternalAxiosRequestConfig } from 'axios'
 
 import { AuthContextType, User } from '../utils/Types'
 import { isTokenExpired } from '../services/JwtService'
-import { apiInstance, refreshToken } from '../services/ApiService'
+import { refreshToken } from '../services/ApiService'
 import { tryCatch } from '../utils/HelperFunctions'
 
 export const AuthContext = createContext<AuthContextType>({
@@ -68,19 +68,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(() => localStorage.getItem('token'))
     }, [])
 
-    useEffect(() => {
-        if (token) {
-            apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-                config.headers['Authorization'] = `Bearer ${token}`
-                return config
-            })
-        } else {
-            apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-                delete config.headers['Authorization']
-                return config
-            })
-        }
-    }, [token])
+    // useEffect(() => {
+    //     console.log('useeffect for token change')
+    //     if (token) {
+    //         apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    //             config.headers['Authorization'] = `Bearer ${token}`
+    //             return config
+    //         })
+    //     } else {
+    //         apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    //             delete config.headers['Authorization']
+    //             return config
+    //         })
+    //     }
+    // }, [token])
 
     useEffect(() => {
         setIsAuthenticated(Boolean(token) && Boolean(user))

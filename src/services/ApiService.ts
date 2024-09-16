@@ -7,9 +7,22 @@ export const apiInstance = axios.create({
     baseURL,
     headers: {
         'Content-Type': 'application/json',
-        'x-auth-token': `${localStorage.getItem('token')}`
+        // 'Authorization': `${}`
     },
 })
+
+apiInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`
+        }
+        return config
+    },
+    (error) => {
+        return Promise.reject(error)
+    }
+)
 
 export const loginUser = async (data: LoginRequest) => apiInstance.post<LoginResponse>('auth/login', data).then(response => response.data)
 export const registerUser = async (data: RegisterRequest) => apiInstance.post<RegisterResponse>('auth/register', data).then(response => response.data)
