@@ -23,7 +23,7 @@ export default function Profile() {
             </ul>
             <Switch match={currentMatch}>
                 <AccountSection match='account' user={user!} />
-                <PokemonSection match='pokemons' pokemons={user!.pokemon} />    
+                <PokemonSection match='pokemons' pokemon={user!.pokemon} />    
             </Switch>           
 
         </section>
@@ -39,7 +39,7 @@ const AccountSection = ({ user, match }: { user: User, match: string }) => {
     )
 }
 
-const PokemonSection = ({ pokemons, match }: { pokemons: Pokemon[], match: string }) => {
+const PokemonSection = ({ pokemon, match }: { pokemon: Pokemon[], match: string }) => {
     const { mutate, isError, isPending } = useMutation({
         mutationKey: ['deleteUserPokemon'],
         mutationFn: deletePokemonfromUser
@@ -50,8 +50,8 @@ const PokemonSection = ({ pokemons, match }: { pokemons: Pokemon[], match: strin
     return (
         <>
             <h2>My Pokemon</h2>
-            <ul className='flex items-center flex-wrap gap-2 justify-center'>
-                { pokemons.map(pokemon => 
+            <ul className='flex items-center flex-wrap gap-2 justify-center m-0 p-0'>
+                { pokemon.map(pokemon => 
                     <li key={pokemon.id} className='cursor-pointer' style={{ width: '350px', height: '600px' }}>
                         <Card pokemon={pokemon} {...props}/>
                     </li>) 
